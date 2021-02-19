@@ -10,6 +10,7 @@ interface FileMp {
     val absolutePath: String
     fun size(): Long
     fun readLines(): Flow<String>
+    fun shasum(): Flow<String>
 }
 
 expect fun file(absolutePath: String) : FileMp

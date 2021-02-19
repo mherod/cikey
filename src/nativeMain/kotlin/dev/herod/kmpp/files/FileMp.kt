@@ -30,7 +30,9 @@ data class FileMpPosix(
 
     override fun listFiles(): Flow<FileMp> = when {
         isFile() -> flowOf(this)
-        isDirectory() -> exec(command = "ls \"$absolutePath\"").map { file("$absolutePath/$it") }
+        isDirectory() -> exec(command = "ls -a \"$absolutePath\"")
+            .filterNot { c -> ':' in c || c.all { it == '.' } }
+            .map { s -> file("$absolutePath/$s") }
         else -> emptyFlow()
     }
 
@@ -47,5 +49,19 @@ data class FileMpPosix(
             .flatMapConcat { s ->
                 s.split("\n".toRegex()).asFlow()
             }
+    }
+
+    override fun shasum(): Flow<String> = flow {
+        emitAll(
+            flow = exec("shasum $absolutePath")
+                .flatMapConcat {
+                    val split = it.splitOnSpacing()
+                    if (split.size == 2 && split[1] == absolutePath) {
+                        flowOf(split.first())
+                    } else {
+                        emptyFlow()
+                    }
+                }
+        )
     }
 }

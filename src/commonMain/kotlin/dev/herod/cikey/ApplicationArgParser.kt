@@ -5,8 +5,11 @@ import kotlinx.cli.ExperimentalCli
 
 @OptIn(ExperimentalCli::class)
 class ApplicationArgParser : ArgParser(programName = "cikey") {
+
     init {
         subcommands(
+            KeySubcommand()
         )
     }
 }
+

@@ -62,7 +62,7 @@ kotlin {
         binaries {
             executable {
                 freeCompilerArgs += "-Xopt-in=kotlin.RequiresOptIn"
-                entryPoint = mainEntryPoint
+                entryPoint = mainEntryPoint.toLowerCase()
             }
         }
     }

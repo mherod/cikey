@@ -14,7 +14,7 @@ actual fun exec(command: String): Flow<String> = flow {
     if (debugLogsEnabled) println(">> $command")
     popen(command, "r")?.let { pointer ->
         memScoped {
-            val readBufferLength = 128
+            val readBufferLength = 1024
             val buffer = allocArray<ByteVar>(readBufferLength)
             var line = fgets(buffer, readBufferLength, pointer)?.toKString()?.trim()
             while (line != null) {

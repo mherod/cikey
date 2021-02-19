@@ -1,5 +1,7 @@
 package dev.herod.kmpp.files
 
+import dev.herod.kmpp.exec
+import dev.herod.kx.splitOnSpacing
 import kotlinx.coroutines.flow.*
 import java.io.File
 
@@ -32,6 +34,20 @@ data class FileMpJvm(override val absolutePath: String) : FileMp {
     override fun readLines(): Flow<String> = flow {
         emitAll(
             flow = file.readLines().asFlow()
+        )
+    }
+
+    override fun shasum(): Flow<String> = flow {
+        emitAll(
+            flow = exec("shasum ${file.absolutePath}")
+                .flatMapConcat {
+                    val split = it.splitOnSpacing()
+                    if (split.size == 2 && split.get(1) == absolutePath) {
+                        flowOf(split.first())
+                    } else {
+                        emptyFlow()
+                    }
+                }
         )
     }
 }
