@@ -26,9 +26,9 @@ val kotlinVersion: String = KotlinCompilerVersion.VERSION
 val ktorVersion = "1.4.3"
 val coroutinesVersion = "1.4.2"
 
-val mainEntryPoint = "example.group.main"
+val mainEntryPoint = "dev.herod.cikey.Main"
 
-group = "example.group"
+group = "dev.herod.cikey"
 version = "0.0.1"
 
 repositories {
@@ -145,7 +145,7 @@ task<JavaExec>("run") {
     group = "run"
     dependsOn(tasks.getByName("jvmMainClasses"))
     main = "${mainEntryPoint}Kt"
-    args("emulator", "--start")
+    args("--help")
     val jvm by kotlin.targets.getting
     val main: KotlinCompilation<KotlinCommonOptions> by jvm.compilations
     val runtimeDependencies = (main as KotlinCompilationToRunnableFiles<KotlinCommonOptions>).runtimeDependencyFiles

@@ -1,4 +1,4 @@
-package example.group
+package dev.herod.cikey
 
 import dev.herod.kmpp.mainBlock
 

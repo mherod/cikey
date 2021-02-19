@@ -1,4 +1,4 @@
-rootProject.name = "kotlin-mpp-cli-template"
+rootProject.name = "cikey"
 
 pluginManagement {
     repositories {
